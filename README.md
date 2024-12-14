@@ -1,6 +1,6 @@
-This repo contains some basic dsa questions which I did in the beginning
+This repo contains some basic dsa questions which I did in the beginning<br/>
 Here is the order in which they were should be done
-
+<hr/>
 basicMaths<br/>
 recursion<br/>
 hashing<br/>
