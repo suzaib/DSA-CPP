@@ -327,6 +327,33 @@ vector<int> primeFactorisation_optimal(int n){
     return ans;
 }
 
+
+//Q.14) Sum 1 to n Divisors
+//For eg for n=4 generate the sum for all divisors beginning from 1 then 2 then 3 then 4.
+//Ans =>15
+//Brute Force is to use the logic of print all divisors functions.Time Complexity will be N*N
+
+//Better Method uses the i*i<=n techinique to reduce time complexity to N*sqrt(N)
+
+//Optimal Approach:
+//List down the factors for all numbers until n, like:
+/*
+1=>1
+2=>1+2
+3=>1+3
+4=>1+2+4
+As you saw 2 appeared only 4/2=2 times, hence each number in this appears only n/i times therefore it contributes (n/i)*i to the sum. Use this logic
+*/
+
+int sum1ToNDivisors_optimal(int n){
+    int sum=0;
+    for(int i=1;i<=n;i++){
+        sum+=((n/i)*i);
+    }
+    return sum;
+}
+//Time Complexity will be N
+
 int main(){
     return 0;
 }
