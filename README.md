@@ -5,4 +5,5 @@ mathProblems<br/>
 recursion<br/>
 hashing<br/>
 sorting<br/>
+binarySearch_1d<br/>
 bitManipulation<br/>
