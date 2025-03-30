@@ -185,6 +185,13 @@ int clearRightMostSetBit(int n){
 }
 
 
+//Set the rightmost unset bit
+int setRightMostUnsetBit(int n){
+    int ans=(n|(n+1));
+    return ans;
+}
+
+
 //A number which is power of two has only one set bit in binary form, and that is also the rightmost bit so after we clear the rightmost bit, the number we get should be 0
 bool isPowerOf2(int n){
     return !(n&(n-1));
