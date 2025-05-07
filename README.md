@@ -9,5 +9,5 @@ arrays<br/>
 binarySearch_1d<br/>
 binarySearch_2d<br/>
 bitManipulation<br/>
-linkedList<br/>
+singlyLinkedList<br/>
 doublyLinkedList<br/>
