@@ -452,8 +452,8 @@ int dividedWithoutDivOrMultiPlyOperators_optimal(int dividend,int divisor){
         ans+=(1<<cnt);
         n=n-(d<<cnt);
     }
-    if(ans>=(1<<31) && sign==true) return INT_MAX;
-    if(ans>=(1<<31) && sign==false) return INT_MIN;
+
+    if(ans>INT_MAX) return sign? INT_MAX:INT_MIN;
 
     return sign? ans:((-1)*ans);
 }
