@@ -401,7 +401,8 @@ Node* delNthNodeFromEnd_brute(Node* head,int n){
 
 };
 
-Node* delNthNodeFromEnd_optimal(Node* head,int n){
+//Optimal Code
+Node* delNthNodeFromEnd(Node* head,int n){
     if(!head) return head;
     Node* fast=head;
     for(int i=0;i<n;i++){
