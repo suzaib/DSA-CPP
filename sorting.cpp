@@ -112,6 +112,7 @@ void mS(vector<int> &arr,int low,int high){
         return;
     }
     int mid=(low+high)/2;
+    //We could also use right shift operator 
     mS(arr,low,mid);
     mS(arr,mid+1,high);
     merge(arr,low,mid,high);
