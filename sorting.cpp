@@ -117,7 +117,8 @@ void mS(vector<int> &arr,int low,int high){
     merge(arr,low,mid,high);
 }
 
-void mergeSort(vector <int> &arr,int n){
+void mergeSort(vector <int> &arr){
+    int n=arr.size();
     mS(arr,0,n-1);
 }
 //Whenever division is happening by x the time complexity is logx N (x is base)
