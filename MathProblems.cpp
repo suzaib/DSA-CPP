@@ -213,7 +213,7 @@ int power_brute(int n,int m){
     return ans;
 }
 
-double power_optimal(double n, int m) {
+double power(double n, int m) {
     double ans = 1.0; 
     int abs_m = abs(m);
 
