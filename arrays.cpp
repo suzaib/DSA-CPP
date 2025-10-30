@@ -1784,6 +1784,71 @@ vector<int> majorityElement2_MVA(vector<int> arr){
 
 
 //Q.34) 3 Sum Problem
+//Part I
+//First we only check if a triplet exists or not
+
+//Brute Force 
+//Form all the combinations
+bool existenceOf3Sum_brute(vector<int> &arr,int k){
+    int n=arr.size();
+    for(int i=0;i<n;i++){
+        int req=k-arr[i];
+        for(int j=i+1;j<n;j++){
+            int req2=req-arr[j];
+            for(int k=j+1;k<n;k++){
+                if(arr[k]==req2) return true;
+            }
+        }
+    }
+    return false;
+}
+//Three nested loops 
+//Time Complexity will be O(n3)
+
+//Better Method
+//To use hashing
+bool existenceOf3Sum_better(vector<int> &arr,int target){
+    int n=arr.size();
+    for(int i=0;i<n;i++){
+        unordered_map<int,int> mp;
+        for(int j=i+1;j<n;j++){
+            int req=target-arr[i]-arr[j];
+            if(mp.find(req)!=mp.end()) return true;
+            mp[arr[j]]=j;
+        }
+    }
+    return false;
+}
+//Only two loops this time
+//Time Complexity will be O(n2)
+//Space Complexity will be O(2n)
+
+//Optimal Method
+//Use the two pointer approach after sorting the array
+bool threeSum(vector<int> &arr, int req) {
+    int n = arr.size();
+    sort(arr.begin(), arr.end());
+    
+    for(int i = 0; i < n - 2; i++) {
+        int j = i + 1;
+        int k = n - 1;
+        
+        while(j < k) {
+            int sum = arr[j] + arr[k] + arr[i];
+            if(sum > req) k--;
+            else if(sum < req) j++;  // Compare with req, not k
+            else return true;
+        }
+    }
+    return false;
+}
+//Sorting takes time and the inner loop takes n2 time
+//Since the original array is altered therefore this would add to the space complexity 
+//Time Complexity will be O(n2+nlogn)
+//Space Complexity will be O(n)
+
+
+//Part II
 //Find three unique triplets that sum up to 0
 vector<vector<int>> threeSum_brute(vector<int> arr){
     set<vector<int>> st;
@@ -1834,7 +1899,7 @@ vector<vector<int>> threeSum_better(vector<int> arr){
 
 //Looking at the previous methods , it seems obvious that sorting the array at first could help as then we would not have to sort the elements later on
 //Using Two Pointer approach
-vector<vector<int>> threeSum_optimal(vector<int> arr){
+vector<vector<int>> threeSum(vector<int> arr){
     int n=arr.size();
     sort(arr.begin(),arr.end());
     vector<vector<int>> ans;
