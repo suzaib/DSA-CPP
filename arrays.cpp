@@ -730,7 +730,7 @@ int lenOfLongestSubarrWithSumK_optimal(vector<int> arr, int K){
 // Suppose K is 12 , then we take the first element(say it's 3) and we it from K (12-3) , Now if 9 exists in the array return true, otherwise false
 bool existenceOfAPairWithSumK_brute(vector<int> arr, int K){
     int n = arr.size();
-    int reqSum = K;
+    int reqSum;
     for (int i = 0; i < n - 1; i++){
         reqSum = K - arr[i];
         for (int j = i + 1; j < n; j++){
@@ -741,12 +741,13 @@ bool existenceOfAPairWithSumK_brute(vector<int> arr, int K){
     }
     return false;
 }
-//Time taken will be due to two loops
+//Time taken will be due to two loops which are nested
+//No space is required to solve the question 
 //Time Complexity is O(n2)
 
 //Better Method
-//Using Hashing
-bool existenceOfAPairWithSumK_betterMethod(vector<int> arr, int K){
+//Using Hashing, and checking if the element we are looking for is available in the set or not
+bool existenceOfAPairWithSumK_better(vector<int> &arr, int K){
     int n = arr.size();
     unordered_map<int, int> hashedMap;
     int req;
@@ -760,10 +761,15 @@ bool existenceOfAPairWithSumK_betterMethod(vector<int> arr, int K){
 
     return false;
 }
-// For ordered Map Time Complexity will be O(N*logN)
-// For unordered Map Time Complexity will be O(N*N) (though the worst case never occurs) and almost all operations happen in O(N) (the average time complexity)
-// Space Complexity will be O(N) as a map is being used with N elements
+//For ordered Map Time Complexity will be O(N*logN)
+//For unordered Map Time Complexity will be O(N*N) (though the worst case never occurs) and almost all operations happen in O(N) (the average time complexity)
+//Unordered map takes average time of O(1) and only one loops run 
+//The map can store all elements at worst
+//Time Complexity will be O(n)
+//Space Complexity will be O(2n)
 
+//Optimal Method
+//Sort the array then use two pointer approach
 // This is slightly better than the better method(if the array is unsorted) since in this method we have to sort the array first
 bool existenceOfAPairWithSumK_optimalMethod(vector<int> &arr,int K){
     int n=arr.size();
