@@ -771,28 +771,24 @@ bool existenceOfAPairWithSumK_better(vector<int> &arr, int K){
 //Optimal Method
 //Sort the array then use two pointer approach
 // This is slightly better than the better method(if the array is unsorted) since in this method we have to sort the array first
-bool existenceOfAPairWithSumK_optimalMethod(vector<int> &arr,int K){
+bool existenceOfAPairWithSumK(vector<int> &arr,int k){
     int n=arr.size();
-    sortVector(arr);
-    int i = 0;
-    int j = n - 1;
-    int sum;
-    while (i < j){
-        sum = arr[i] + arr[j];
-        if (sum > K){
-            j--;
-        }
-        else if (sum < K){
-            i++;
-        }
-        else{
-            return true;
-        }
+    sort(arr.begin(),arr.end());
+    int i=0;
+    int j=n-1;
+    while(i<j){
+        int sum=arr[i]+arr[j];
+        if(sum<k) i++;
+        else if(sum>k) j--;
+        else return true;
     }
     return false;
 }
-// The Time Complexity is O(N)(for loop) + O(N*logN)(for sorting)
-// Space complexity will be O(N) since we are changing the array or we can just say O(1) but we must mention that we are changing the array
+//Every element is checked once so n time along with the time needed for sorting the array
+//The original array has been changed so in this case we say that n size is used
+//Time Complexity will be O(n+nlogn)
+//Space Complexity will be O(n)
+
 
 // Q.18) Read Previous Question, This time , we are told that the pair does exists, and we have to find the indices of the two elements of the pair
 pair<int, int> indexOfPairWithSumK_myMethod(vector<int> arr, int K){
