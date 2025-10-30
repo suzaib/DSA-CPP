@@ -741,8 +741,10 @@ bool existenceOfAPairWithSumK_brute(vector<int> arr, int K){
     }
     return false;
 }
-//Time Complexity is about O(N*N)
+//Time taken will be due to two loops
+//Time Complexity is O(n2)
 
+//Better Method
 //Using Hashing
 bool existenceOfAPairWithSumK_betterMethod(vector<int> arr, int K){
     int n = arr.size();
