@@ -1849,20 +1849,24 @@ bool threeSum(vector<int> &arr, int req) {
 
 
 //Part II
-//Find three unique triplets that sum up to 0
-vector<vector<int>> threeSum_brute(vector<int> arr){
+//Find three unique triplets that sum up to k
+//Naive Method
+//Try all the possible combinations
+vector<vector<int>> threeSum_naive(vector<int> arr,int target){
     set<vector<int>> st;
 
     int n=arr.size();
-    for(int i=0;i<n-2;i++){
+    for(int i=0;i<n;i++){
         for(int j=i+1;j<n-1;j++){
             for(int k=j+1;k<n;k++){
-                if(arr[i]+arr[j]+arr[k]==0){
+                if(arr[i]+arr[j]+arr[k]==target){
                     vector<int> temp={arr[i],arr[j],arr[k]};
-                    sort(temp.begin(),temp.end());
-                    //We sort to make similar triplets will look alike and hence will be stored only once in the set
 
+                    //Now we sort this so that similar triplets will automatically be removed
+                    sort(temp.begin(),temp.end());
                     st.insert(temp);
+
+                    //This break line optimised our code since any other value of k will be equal to target-(arr[i]+arr[j])
                     break;
                 }
             }
@@ -1871,34 +1875,68 @@ vector<vector<int>> threeSum_brute(vector<int> arr){
     vector<vector<int>> ans(st.begin(),st.end());
     return ans;
 }
-//Time Complexity is O(n*n*n)(for three loops) + O(log(unique triplets))
-//Space Complexity will be O(3*(unique triplets))
+//Three nested loops will run along with the time needed to insert and sort the element in the temp array, also the time taken at last to convert the set into vector
+//Three nested loops mean n3, to insert in set takes logn and to sort takes nlogn and at last time taken will be 3m where m is the number of multilples
+//Time Complexity will be O(n3*(logn+nlogn)+3m)
+//Space Complexity will be O(3+3m)
 
-vector<vector<int>> threeSum_better(vector<int> arr){
+//Brute Method
+//Similar to using the hashing method to reduce the last loop
+vector<vector<int>> threeSum_brute(vector<int> &arr,int target){
     int n=arr.size();
     set<vector<int>> st;
-    int req;
     for(int i=0;i<n;i++){
-        set<int> hashset;
+        unordered_set<int> hashSt;
         for(int j=i+1;j<n;j++){
-            int third=-(arr[i]+arr[j]);
-            if(hashset.find(third)!=hashset.end()){
-                vector<int> temp={arr[i],arr[j],third};
+            int req=target-(arr[i]+arr[j]);
+            if(hashSt.find(req)!=hashSt.end()){
+                vector<int> temp={arr[i],arr[j],req};
                 sort(temp.begin(),temp.end());
                 st.insert(temp);
             }
-            hashset.insert(arr[j]);
         }
+    }
 
+    vector<vector<int>> ans(st.begin(),st.end());
+    return ans;
+
+}
+//Two nested loops, and inside sorting and inserting in set, and converting set to array
+//Space is taken due to hashSt and temp array
+//Time Complexity will be O(n2*(logn+nlogn)+3m)
+//Space Complexity will be O(3+n+3m)
+
+//Better Method
+//Sort the array first then use two pointer approach
+vector<vector<int>> threeSum_better(vector<int> &arr,int target){
+    int n=arr.size();
+    set<vector<int>> st;
+    sort(arr.begin(),arr.end());
+    for(int i=0;i<n;i++){
+        int j=i+1;
+        int k=n-1;
+        while(j<k){
+            int sum=arr[i]+arr[j]+arr[k];
+            if(sum>target) k--;
+            else if(sum<target) j++;
+            else{
+                vector<int> temp={arr[i],arr[j],arr[k]};
+                st.insert(temp);
+                j++;
+                k--;
+            }
+        }
     }
     vector<vector<int>> ans(st.begin(),st.end());
     return ans;
-}
-//Time Complexity will be O(n*n) * O(logM) (M is element stored in set)
-//Space Complexity will be O(n) + O(no of unique triplets)
 
-//Looking at the previous methods , it seems obvious that sorting the array at first could help as then we would not have to sort the elements later on
-//Using Two Pointer approach
+}
+//First we sort then use three pointer which takes n2 time and then we insert it inside taking logn time
+//Time Complexity will be O(nlogn +n2*logn+3m)
+//Space Complexity will be O(3+3m)
+
+//Optimal Method
+//We can further reduce the time and space if we are able to eliminate the set, and somehow storing the unique triplets without its help
 vector<vector<int>> threeSum(vector<int> arr){
     int n=arr.size();
     sort(arr.begin(),arr.end());
@@ -1909,12 +1947,8 @@ vector<vector<int>> threeSum(vector<int> arr){
         int k=n-1;
         while(j<k){
             int sum=arr[i]+arr[j]+arr[k];
-            if(sum<0){
-                j++;
-            }
-            else if(sum>0){
-                k--;
-            }
+            if(sum<0) j++;
+            else if(sum>0) k--;
             else{
                 ans.push_back({arr[i],arr[j],arr[k]});
                 j++;
@@ -1926,9 +1960,8 @@ vector<vector<int>> threeSum(vector<int> arr){
     }
     return ans;
 }
-//Time Complexity will be O(n*logn) + O(n*n) 
-//Space Complexity is used only for returning the answer O(no of unique triplets)
-
+//No space is used to solve the answer
+//Time Complexity will be O(n2+nlogn) 
 
 //Q.35) 4 Sum Problem
 //Given an array and a sum k , return elements whose sum add up to k
