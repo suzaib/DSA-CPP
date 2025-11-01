@@ -1964,8 +1964,76 @@ vector<vector<int>> threeSum(vector<int> arr){
 //Time Complexity will be O(n2+nlogn) 
 
 //Q.35) 4 Sum Problem
-//Given an array and a sum k , return elements whose sum add up to k
-//Testing all the combinations, brute force 
+//Given an array and a sum k , we need to check can 4 elements form k
+
+//Part I
+//Check whether such quadruples exist or not
+//Brute Force 
+//Just form all combinations and check the sum for each
+bool existenceOf4Sum_brute(vector<int> &nums,int target){
+    int n=nums.size();
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            for(int k=j+1;k<n;k++){
+                for(int l=k+1;l<n;l++){
+                    if(nums[i]+nums[j]+nums[k]+nums[l]==target) return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+//Four nested loops are used so n4 time
+//No space is used to solve the answer
+//Time Complexity will be O(n4)
+
+//Better Method
+//We can remove the last loop using hashing
+bool existenceOf4Sum_better(vector<int> &nums,int target){
+    int n=nums.size();
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            unordered_set<int> st;
+            for(int k=j+1;k<n;k++){
+                int req=target-(nums[i]+nums[j]+nums[k]);
+                if(st.find(req)!=st.end()) return true;
+                st.insert(nums[k]);
+            }
+        }
+    }
+    return false;
+}
+//Three nested loop but an extra space of n is used
+//Time Complexity will be O(n3)
+//Space Complexity will be O(n)
+
+//Optimal Method
+//We first sort the array and then use the two pointer approach
+bool existenceOf4Sum(vector<int> &nums,int target){
+    int n=nums.size();
+    sort(nums.begin(),nums.end());
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            int k=j+1;
+            int l=n-1;
+            while(k<l){
+                int sum=nums[i]+nums[j]+nums[k]+nums[l];
+                if(sum>target) l--;
+                else if(sum<target) k++;
+                else return true;
+            }
+        }
+    }
+    return false;
+}
+//Three loops so n3 and add to that the time taken for sorting
+//No extra space used to solve the question
+//Time Complexity will be O(n3+nlogn)
+
+//Part II
+//Return the quadruples
+//Brute Force
+//Testing all the combinations, and using a set to avoid duplicates
 vector<vector<int>> fourSum_brute(vector<int> arr,int s){
     int n=arr.size();
     set<vector<int>> st;
