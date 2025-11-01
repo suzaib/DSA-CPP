@@ -3,17 +3,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
- //lets first write our code for the swap function
- //when we pass arguments as reference, the changes happen to the original values
- void swap(int &n1,int &n2){
-    int temp=n1;
-    n1=n2;
-    n2=temp;
-}
-
 //Selection sort
 //Find the minimum element and put it at the first, (the element at that first position gets swapped with the minumum element's place)
-void sortBySelectionSort(int arr[],int n){
+void selectionSort(int arr[],int n){
     //n is the size of array
     int minIdx;
     for(int i=0;i<n;i++){
@@ -38,7 +30,7 @@ void sortBySelectionSort(int arr[],int n){
 //We will also optimize our code by counting the number of swaps that happened
 //Suppose that there was an array that was already sorted , so after first walkthrough the number of swaps will be 0 ,
 //this means we don't need to do any further calculations and can return from there only
-void sortByBubbleSort(int arr[],int n){
+void bubbleSort(int arr[],int n){
     int didSwap;
     for(int i=n-1;i>=0;i--){
         didSwap=0;
@@ -57,7 +49,7 @@ void sortByBubbleSort(int arr[],int n){
 
 //Insertion Sort
 //Takes an element and places it at its correct order
-void sortByInsertionSort(int arr[],int n){
+void insertionSort(int arr[],int n){
     for(int i=1;i<n;i++){
         int j=i;
         while(j>0 && arr[j-1]>arr[j]){
@@ -176,6 +168,57 @@ vector<int> quickSort(vector<int> arr){
     qS(arr,0,arr.size()-1);
     return arr;
 }
+
+
+
+//Recursive Sorting
+//Recursive Bubble Sort
+void bsrIHelper(vector<int> &arr,int n){
+
+    //Base Case
+    if(n==1) return;
+
+    //One loop puts the biggest element at the end
+    for(int i=0;i<n-1;i++){
+        if(arr[i]>arr[i+1]) swap(arr[i],arr[i+1]);
+    }
+
+    //Now call the function again for a decreased value of n
+    bsrIHelper(arr,n-1);
+}
+void bubbleSort_recursiveI(vector<int> &arr){
+    int n=arr.size();
+    bsrIHelper(arr,n);
+}
+//It is very similar to bubble sort and therefore takes the same amount of time
+//Uses a recusion stack space of n 
+//Time Complexity will be O(n2)
+//Space Complexity will be O(n)
+
+//Fully recursive bubble sort(no loops)
+void bsrIIHelper(vector<int> &arr,int n,int i){
+
+    //Base Case
+    if(n==1) return;
+
+    //If we finished one pass
+    if(i==n-1) return bsrIIHelper(arr,n-1,0);
+
+    //Compare and swap
+    if(arr[i]>arr[i+1]) swap(arr[i],arr[i+1]);
+
+    //Move on to the next pair
+    bsrIIHelper(arr,n,i+1);
+}
+void bubbleSort_recursiveII(vector<int> &arr){
+    int n=arr.size();
+    bsrIIHelper(arr,n,0);
+}
+//The time taken is just equal to bubble sort
+//Recusion stack space is used of n
+//Time Complexity will be O(n2)
+//Space Complexity will be O(n)
+
 
 int main(){
     return 0;
