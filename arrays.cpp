@@ -1931,7 +1931,6 @@ vector<vector<int>> threeSum_better(vector<int> &arr,int target){
     return ans;
 
 }
-//First we sort then use three pointer which takes n2 time and then we insert it inside taking logn time
 //Time Complexity will be O(nlogn +n2*logn+3m)
 //Space Complexity will be O(3+3m)
 
@@ -2032,9 +2031,9 @@ bool existenceOf4Sum(vector<int> &nums,int target){
 
 //Part II
 //Return the quadruples
-//Brute Force
+//Naive Method
 //Testing all the combinations, and using a set to avoid duplicates
-vector<vector<int>> fourSum_brute(vector<int> arr,int s){
+vector<vector<int>> fourSum_naive(vector<int> arr,int s){
     int n=arr.size();
     set<vector<int>> st;
     int sum;
@@ -2056,10 +2055,13 @@ vector<vector<int>> fourSum_brute(vector<int> arr,int s){
     vector<vector<int>> ans(st.begin(),st.end());
     return ans;
 }
-//Time Complexity will be O(n**4)
-//Space Complexity will be O(no. of unique quadruples x 2)
+//Four nested loops therefore n4 along with time taken to insert in set(logn) and to sort(log4)
+//Time Complexity will be O(n4)
+//Space Complexity will be O(no. of unique quadruples x 4)
 
-vector<vector<int>> fourSum_better(vector<int> arr,int s){
+//Brute Force
+//Removing the last loop using hashing
+vector<vector<int>> fourSum_brute(vector<int> arr,int s){
     int n=arr.size();
     set<int> hashSt;
     set<vector<int>> st;
@@ -2085,8 +2087,44 @@ vector<vector<int>> fourSum_better(vector<int> arr,int s){
 //Time Complexity will be O(n*n*n) * O(logM) (M is the number of elements in the set which keeps on changing)
 //Space Complexity will be O(n) 
 
-//This time we sort the array first along with using two pointer approach
-vector<vector<int>> fourSum_optimal(vector<int> arr,int s){
+//Better Method
+//We first sort the array so to avoid the sorting at the end
+//Better Method
+//First we sort then use three pointer which takes n3 time and then we insert it inside taking log4 time
+vector<vector<int>> fourSum_better(vector<int> &arr,int s){
+    int n=arr.size();
+    sort(arr.begin(),arr.end());
+    set<vector<int>> st;
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            int k=j+1;
+            int l=n-1;
+            while(k<l){
+                int sum=arr[i]+arr[j]+arr[k]+arr[l];
+                if(sum<s) k++;
+                else if(sum>s) l--;
+                else{
+                    st.insert({arr[i],arr[j],arr[k],arr[l]});
+                    k++;
+                    l--;
+                    while(k<l && arr[k]==arr[k-1]) k++;
+                    while(k<l && arr[l]==arr[l+1]) l--;
+                }
+            }
+        }
+    }
+    
+    vector<vector<int>> ans(st.begin(),st.end());
+    return ans;
+}
+//Three loops are at work here along with insertion which takes minimal time of log4 and sorting at first which takes nlogn
+//Space is used by set which is 4m where m is the number of quadruples that exist
+//Time Complexity will be O(n3+nlogn)
+//Space Complexity will be O(4m)
+
+//Optimal Method
+//Using the two pointer approach
+vector<vector<int>> fourSum(vector<int> arr,int s){
     int n=arr.size();
     vector<vector<int>> ans;
     sort(arr.begin(),arr.end());
