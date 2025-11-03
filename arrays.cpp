@@ -2220,8 +2220,15 @@ int subarrWithXORK_optimal(vector<int> arr,int k){
 
 
 //Q.37) Merge Overlapping Subintervals
+//(1,2),(2,3) will yield (1,3)
+//In this question, sorting is unavoidable, since we need the intervals which are closer, in the same order
+
+//Brute Force
+//This is quite tricky to understand and it is advisable to directly study the optimal approach, since the optimal method in this one, is far more intuitive
 //Sorting the intervals first
 vector<vector<int>> mergeOverlappingSubIntervals_brute(vector<vector<int>> arr){
+
+    //Sorting the intervals first
     sort(arr.begin(),arr.end());
     vector<vector<int>> ans;
     int n=arr.size();
@@ -2245,26 +2252,48 @@ vector<vector<int>> mergeOverlappingSubIntervals_brute(vector<vector<int>> arr){
     }
     return ans;
 }
-//Time Complexity will be O(2N) + O(NLogN)(For sorting)
-//Space is only used for returning the answer
+//First we sort the array, and the loop iterates for every element twice(m=2n)
+//In the worst case, we may end up storing every interval, but that space will be used only to return the answer, and not to solve it
+//Time Complexity will be O(mlogm+2m)
 
-//This can be done in a single iteration
-vector<vector<int>> mergeOverlappingSubIntervals_optimal(vector<vector<int>> arr){
-    int n=arr.size();
-    sort(arr.begin(),arr.end());
+//Optimal Method
+//Just iterate through the arr, and form three cases
+vector<vector<int>> mergeOverlappingSubIntervals(vector<vector<int>> &intervals){
+    int n=intervals.size();
+
+    //Sorting is unavoidable in this question
+    sort(intervals.begin(),intervals.end());
     vector<vector<int>> ans;
-    for(int i=0;i<n;i++){
-        if(ans.empty() || arr[i][0]>ans.back()[1]){
-            ans.push_back(arr[i]);
-        }
+
+    //We build our first interval
+    int start=intervals[0][0];
+    int end=intervals[0][1];
+
+    //Now start the iteration
+    for(int i=1;i<n;i++){
+        int st=intervals[i][0];
+        int ed=intervals[i][1];
+        //We check whether this interval lies inside or outside or overlaps partially
+
+        //The case where the next interval lies completely inside
+        //We don't have to anything in this case
+        if(ed<end) continue;
+
+        //Next case is intervals lies partially inside, in that case we just increase our end position
+        else if(st<=end && ed>end) end=ed;
+
+        //Last case is when the intervals completely lies outside, in this case we form a interval and push it to answer
         else{
-            ans.back()[1]=max(ans.back()[1],arr[i][1]);
+            ans.push_back({start,end});
+            start=st;
+            end=ed;
         }
     }
+    ans.push_back({start,end});
     return ans;
 }
-//Time Complexity will be O(N)+ O(NlogN) (for sorting)
-//Space is used for storing the answer
+//Soring is done first and then an iterative loop
+//Time Complexity will be O(nlogn+n)
 
 
 //Q.38) Merge two sorted arrays without using any extra space
