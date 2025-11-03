@@ -223,24 +223,31 @@ void bubbleSort_recursiveII(vector<int> &arr){
 //Recursive Insertion Sort
 void insertionSortHelper(vector<int> &arr,int n){
 
-    //Base Case
+    //Since the first element is already sorted
     if(n<=1) return;
 
+    //Calling the function again
     insertionSortHelper(arr,n-1);
 
     int last=arr[n-1];
     int j=n-2;
 
+    //Inserting the element at its correct position
     while(j>=0 && arr[j]>last){
         arr[j+1]=arr[j];
         j--;
     }
     arr[j+1]=last;
 }
+
 void insertionSort_recursive(vector<int> &arr){
     int n=arr.size();
     insertionSortHelper(arr,n);
 }
+//This will take same time as the insertion sort, but will take extra space of n (recursion stack space)
+//Time Complexity will be O(n2)
+//Space Complexity will be O(n)
+
 
 int main(){
     return 0;
