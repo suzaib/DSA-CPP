@@ -220,6 +220,29 @@ void bubbleSort_recursiveII(vector<int> &arr){
 //Space Complexity will be O(n)
 
 
+//Recursive Insertion Sort
+void insertionSortHelper(vector<int> &arr,int n){
+
+    //Base Case
+    if(n<=1) return;
+
+    insertionSortHelper(arr,n-1);
+
+    int last=arr[n-1];
+    int j=n-2;
+
+    while(j>=0 && arr[j]>last){
+        arr[j+1]=arr[j];
+        j--;
+    }
+    arr[j+1]=last;
+}
+void insertionSort_recursive(vector<int> &arr){
+    int n=arr.size();
+    insertionSortHelper(arr,n);
+}
+
 int main(){
     return 0;
 }
+.
