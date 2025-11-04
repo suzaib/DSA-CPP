@@ -2493,7 +2493,8 @@ vector<int> misssingAndRepeating_optimal2(vector<int> arr,int n){
 //Q.40) Count total inversions 
 //Consider array=[5,3,2,4,1] , then any two pairs is descending order are called inverted pairs(the order in which the individual elements have to be taken should be the same as that in the array)
 //eg (4,1) , (5,3) , (5,1)
-//Testing all the pairs (brute force)
+//Brute Foce 
+//Testing all the pairs
 int countInversions_brute(vector<int> arr){
     int n=arr.size();
     int cnt=0;
@@ -2504,7 +2505,11 @@ int countInversions_brute(vector<int> arr){
     }
     return cnt;
 }
+//Two nested loops and no space is used
+//Time Complexity will be O(n2)
 
+//Optimal Method
+//We employ a similar method as Merge Sort
 int divideSort(vector<int> &arr,int low,int mid,int high){
     vector<int> temp;
     int left=low;
