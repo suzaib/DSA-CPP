@@ -905,7 +905,8 @@ long double minMaxDistBwGasStations(vector<int> arr,int k){
 //Time Complexity will be : O(n)+O(nLogn)
 
 //Median of two sorted arrays
-//We can first create a new arrays using the double pointer method and then finding the median of the merged array would be easier
+//Brute Force
+//Crate a merged array, then just find the mid element, that would be median
 double medianOf2SortedArr_brute(vector<int> a,vector<int> b){
     int n=a.size();
     int m=b.size();
@@ -942,64 +943,61 @@ double medianOf2SortedArr_brute(vector<int> a,vector<int> b){
     }
     return median;
 }
+//Merging the array requires visiting every element, therefore time taken would be n+m
+//Also n+m space is used to store the new merged array
 //Time complexity will be O(n+m) 
 //Space Complexity will be O(n+m)
 
-double medianOf2SortedArr_better(vector<int> a,vector<int> b){
+//Better Method
+//We can just use pointer approach, without using the extra space of merged array
+double mergeTwoSortedArr_better(vector<int> &a,vector<int> &b){
     int n=a.size();
     int m=b.size();
-    int s=(n+m);
-    if(s==0) return -1;
-    int idx1=(s/2)-1;
-    int idx2=(s/2);
-    int el1;
-    int el2;
+    int s=n+m;
+    int cnt1=(s/2)-1;
+    int cnt2=(s/2);
     int i=0;
     int j=0;
     int cnt=0;
+    int el1;
+    int el2;
     while(i<n && j<m){
-        if(a[i]>b[j]){
-            if(cnt==idx1) el1=b[j];
-            else if(cnt==idx2) el2=b[j];
-            cnt++;
-            j++;
-        }
-        else {
-            if(cnt==idx1) el1=a[i];
-            else if(cnt==idx2) el2=a[i];
-            cnt++;
-            i++;
-        }
-    }
+        if(cnt==cnt1) el1=min(a[i],b[j]);
+        if(cnt==cnt2) el2=min(a[i],b[j]);
 
+        if(a[i]>b[j]) j++;
+        else i++;
+        cnt++;
+    }
     while(i<n){
-        if(cnt==idx1) el1=a[i];
-        else if(cnt==idx2) el2=a[i];
-        cnt++;
+        if(cnt>s/2) break;
+        if(cnt==cnt1) el1=a[i];
+        if(cnt==cnt2) el2=a[i];
         i++;
-    }
-
-    while(j<m){
-        if(cnt==idx1) el1=b[j];
-        else if(cnt==idx2) el2=b[j];
         cnt++;
+    }
+    while(j<m){
+        if(cnt>s/2) break;
+        if(cnt==cnt1) el1=b[j];
+        if(cnt==cnt2) el2=b[j];
         j++;
+        cnt++;
     }
 
-    double med;
-    if(s%2==1) return el2;
-    else {
-        med=(1.0)*(el1+el2)/(2.0);
-    }
-    return med;
+    int ans;
+    if(s%2==0) return (el1+el2)/2.0;
+    return el2;
 }
+//Since we have to go through each element, therefore time taken will be equal to n+m
+//No extra space is needed to answer the question
 //Time Complexity will be O(n+m)
 
+//Optimal Method
 //Watch video for better explanation
-double medianOf2SortedArr_optimal(vector<int> a,vector<int> b){
+double medianOf2SortedArr(vector<int> a,vector<int> b){
     int n1=a.size();
     int n2=b.size();
-    if(n1>n2) return medianOf2SortedArr_optimal(b,a);
+    if(n1>n2) return medianOf2SortedArr(b,a);
     int low=0;
     int high=n1;
     //Remember you need to find how many elements to take from one array, then how many from the second array would be known automatically
