@@ -821,35 +821,54 @@ int splitArrWithMaxSum(vector<int> arr,int k){
 
 //Q.25) Minimise Max Distance Between gas stations (The array will be sorted)
 //Watch video for better understanding
-//Brute force solution
-long double minMaxDistBwGasStations_brute(vector<int> arr,int k){
+//Brute force 
+long double insertGasStations_brute(vector<int> &arr,int k){
     int n=arr.size();
-    vector<int> howMany(n-1,0);
-    for(int gasStat=1;gasStat<=k;gasStat++){
-        long double maxSection=-1;
-        int maxIdx=-1;
-        for(int i=0;i<n;i++){
-            long double diff=arr[i+1]-arr[i];
-            long double sectionLength=diff/((long double)(howMany[i]+1));
-            if(sectionLength>maxSection){
-                maxSection=sectionLength;
-                maxIdx=i;
-            }
-        }
-        howMany[maxIdx]++;
-    }
-    long double maxAns=-1;
-    for(int i=0;i<n;i++){
-        long double diff=arr[i+1]-arr[i];
-        long double sectionLength=diff/((long double)(howMany[i]+1));
-        maxAns=max(maxAns,sectionLength);
-    }
-    return maxAns;
-}
-//Time Complexity will be O(n^2)+O(n)
 
-//Better solution uses the priority queue which stores the maximum element at top
-//The push operation in priority queue takes logN time complexity
+    //First let us handle the edge case when there is only one station
+    if(n<2) return 0.0L;
+
+    //We create a dist array which stores the distance between two stations, dist[0] represent distance between 0 and 1 station
+    vector<long double> dist;
+
+    //Similarly we create a stations array which stores how many stations have we put between two stations, stations[0] represents number of stations between 0 and 1
+    vector<int> stations(n-1,0);
+
+    //Now we fill the dist array 
+    for(int i=0;i<n-1;i++){
+        long double gap=arr[i+1]-arr[i];
+        dist.push_back(gap);
+    }
+
+    //We run the loop till we have inserted all stations
+    while(k>0){
+
+        //Getting the iterator to the max element
+        auto it=max_element(dist.begin(),dist.end());
+
+        //Using the distance function to get the difference between the starting iterator and the iterator pointing to the max element, this gives us the index of the max element(the first occurence)
+        int maxIdx=distance(dist.begin(),it);
+
+        //We insert the station between the point and increase the value by one
+        stations[maxIdx]++;
+
+        //And now we update the dist array
+        dist[maxIdx]=((1.0L)*(arr[maxIdx+1]-arr[maxIdx]))/(stations[maxIdx]+1);
+        k--;
+    }
+
+    //Now we just loop through the dist array to find the max distance
+    long double maxDist=(*(max_element(dist.begin(),dist.end())));
+    return maxDist;
+}
+//First we run a loop for n-1 time, then a loop runs k times, inside it the max_element takes n time in worst case
+//Combining all that the total time taken is around n+nk
+//We use dist array and stations array which are n-1 size
+//Time Complexity will be O(nk)
+//Space Compleixty will be O(2n)
+
+//Better Method
+//We should use the priority queue which stores the maximum element at top
 long double minMaxDistBwGasStations_better(vector<int> arr,int k){
     int n=arr.size();
     vector<int> howMany(n-1,0);
