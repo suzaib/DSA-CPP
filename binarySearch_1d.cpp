@@ -868,60 +868,101 @@ long double insertGasStations_brute(vector<int> &arr,int k){
 //Space Compleixty will be O(2n)
 
 //Better Method
-//We should use the priority queue which stores the maximum element at top
-long double minMaxDistBwGasStations_better(vector<int> arr,int k){
+//The max_element method takes the time of n inside the loop, but we can narrow it down if we use a data structure that stores the max element at top automatically
+//We would use a priority queue for this
+//Priority queue by default is a max heap, that is, it stores max value at the top
+//And pair is by default compared lexicographically
+//Therefore a priority_queue having pair<int,int> will store at top the element which has the greater first part, if same, the greater second part
+long double insertGasStations(vector<int> &arr,int k){
     int n=arr.size();
-    vector<int> howMany(n-1,0);
+    
+    //Guard against edge case
+    if(n<2) return (0.0L);
+
+    //Stations array to hold the stations we have inserted between two stations
+    vector<int> stations(n-1,0);
+
+    //Priority queue stores {distance between stations,index}
     priority_queue<pair<long double,int>> pq;
-    for(int i=0;i<n;i++){
-        pq.push({arr[i+1]-arr[i],i});
+
+    //Filling up the priority queue
+    for(int i=0;i<n-1;i++){
+        long double gap=arr[i+1]-arr[i];
+        pq.push({gap,i});
     }
 
-    for(int gasStat=1;gasStat<=k;gasStat++){
-        auto tp=pq.top();
+    //Running the loop till all stations have been inserted
+    while(k>0){
+
+        //The index having the max distance is stored at the top
+        int maxIdx=pq.top().second;
         pq.pop();
-        long double secIdx=tp.second;
-        howMany[secIdx]++;
-        long double iniDiff=arr[secIdx+1]-arr[secIdx];
-        long double secLen=iniDiff/((long double)(howMany[secIdx]+1));
-        pq.push({secLen,secIdx});
-    }
-    return pq.top().first;
-}
-//Time Complexity will be O(N*LogN)+O(k)
 
+        //Inserting one more stations to minimise the max station gap
+        stations[maxIdx]++;
+        long double dist=((1.0L)*(arr[maxIdx+1]-arr[maxIdx]))/(stations[maxIdx]+1);
+
+        //Pushing the new gap inside the priority queue
+        pq.push({dist,maxIdx});
+        k--;
+    }
+
+    //The ans is stored at the top    
+    long double ans=pq.top().first;
+    return ans;
+}
+//The loop at the top runs for n times and does n insertions in the priority queue, each of which takes logn time
+//Therefore the total time of the loop is nlogn
+//The while loop runs for k times as fetching the top value from priority queue is done in constant time, however there is also a push command
+//Therefore the total time of the while loop comes to klogn
+//We use a stations array that takes n space, and a priority queue which stores a max of all n-1 gaps with stations indices
+//Total space will be n-1+2(n-1)
+//Time Complexity will be O(nlogn +klogn)
+//Space Complexity will be O(3n)
+
+//Optimal Solution
+//Sorted array, min max pattern, a clear hint that binary search can be applied
+//However, since this involves decimal places, we can't do our usual binary search
+//For eg, we can't do while(high>low) since that is not suitable for decimal numbers
+//Also we can't do low=mid-1 etc, since this will cut out most the answers
+//Therefore the question often gives us the assumptions
+//For eg if the question says that we can report our answer upto six decimal places, then we cand do inside the while loop while(high-low>10e-6)
+//And we can use low=mid and high=mid
+//For every binary search problem, we first need to find out the range in which the answer will lie
+//In this case, that range is [0,maxDistanceOriginally]
+//Since the minimum distance can be zero(stations places on top of each other), and the max can be the maxDistance originally 
 //Function to calculate the number of gas stations required
-int numberOfGasStationsReq(long double dist,vector<int> arr){
-    int cnt=0;
+int gasStationsReq(long double dist,vector<int> &arr){
     int n=arr.size();
-    for(int i=1;i<n;i++){
-        int numberInBw=((arr[i]-arr[i-1])/dist);
-        if((arr[i]-arr[i-1])/dist == numberInBw*dist) numberInBw--;
-        cnt+=numberInBw;
+    int cnt=0;
+    for(int i=0;i<n-1;i++){
+        long double g=arr[i+1]-arr[i];
+        int inBw=(int)(ceil(g/dist)-1);
+        cnt+=inBw;
     }
     return cnt;
 }
-//Time complexity will be O(N)
-
-//The most optimal solution employs binary search
-long double minMaxDistBwGasStations(vector<int> arr,int k){
-    int n=arr.size();
+long double minMaxDist(vector<int> &stations, int K) {
+    // Code here
+    int n=stations.size();
+    long double diff=1e-6;
     long double low=0;
     long double high=0;
-    for(int i=0;i<n-1;i++){
-        high=max(high,(long double)(arr[i+1]-arr[i]));
-    }
-
-    long double diff=1e-6;
+    for(int i=0;i<n-1;i++) high=max(high,(long double)(stations[i+1]-stations[i]));
     while(high-low>diff){
         long double mid=(low+high)/(2.0);
-        int cnt=numberOfGasStationsReq(mid,arr);
-        if(cnt>k) low=mid;
+        int cnt=gasStationsReq(mid,stations);
+        if(cnt>K) low=mid;
         else high=mid;
     }
     return high;
 }
-//Time Complexity will be : O(n)+O(nLogn)
+//The first loop runs n times and the while loop runs for log(10e6) which is constant time
+//The loop in helper function also for n times
+//No extra space is being used to store anything
+//Time Complexity will be O(2n)
+
+
 
 //Median of two sorted arrays
 //Brute Force
