@@ -873,7 +873,7 @@ long double insertGasStations_brute(vector<int> &arr,int k){
 //Priority queue by default is a max heap, that is, it stores max value at the top
 //And pair is by default compared lexicographically
 //Therefore a priority_queue having pair<int,int> will store at top the element which has the greater first part, if same, the greater second part
-long double insertGasStations(vector<int> &arr,int k){
+long double insertGasStations_better(vector<int> &arr,int k){
     int n=arr.size();
     
     //Guard against edge case
@@ -942,7 +942,7 @@ int gasStationsReq(long double dist,vector<int> &arr){
     }
     return cnt;
 }
-long double minMaxDist(vector<int> &stations, int K) {
+long double insertGasStations(vector<int> &stations, int K) {
     // Code here
     int n=stations.size();
     long double diff=1e-6;
@@ -1074,8 +1074,8 @@ double medianOf2SortedArr(vector<int> a,vector<int> b){
         int r2=INT_MAX;
         if(mid1<n1) r1=a[mid1];
         if(mid2<n2) r2=b[mid2];
-        if(mid1-1>=0) l1=a[mid1-1];
-        if(mid2-1>=0) l2=b[mid2-1];
+        if(mid1>0) l1=a[mid1-1];
+        if(mid2>0) l2=b[mid2-1];
         if(l1<=r2 && l2<=r1){
             if(n%2==1) return max(l1,l2);
             return ((double)(max(l1,l2)+min(r1,r2)))/(2.0);
