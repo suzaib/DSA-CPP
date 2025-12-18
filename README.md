@@ -11,5 +11,6 @@ binarySearch_2d<br/>
 bitManipulation<br/>
 singlyLinkedList<br/>
 doublyLinkedList<br/>
+stackAndQueue<br/>
 binaryTrees<br/>
 binarySearchTrees<br/>
