@@ -12,5 +12,6 @@ bitManipulation<br/>
 singlyLinkedList<br/>
 doublyLinkedList<br/>
 stackAndQueue<br/>
+dynamicProgramming<br/>
 binaryTrees<br/>
 binarySearchTrees<br/>
