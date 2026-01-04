@@ -15,3 +15,4 @@ stackAndQueue<br/>
 dynamicProgramming<br/>
 binaryTrees<br/>
 binarySearchTrees<br/>
+trie<br/>
