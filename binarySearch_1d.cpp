@@ -1166,12 +1166,12 @@ int kthElementOf2SortedArr_better(vector<int> a,vector<int> b,int k){
 //Time Complexity will be O(n+m) 
 
 //An even better solution, if exists, would have to be binary search
-int kthElementOf2SortedArr_optimal(vector<int> a,vector<int> b,int k){
+int kthElementOf2SortedArr(vector<int> a,vector<int> b,int k){
     int n=a.size();
     int m=b.size();
     int t=n+m;
     if(k>t) return -1;
-    if(n>m) return kthElementOf2SortedArr_optimal(b,a,k);
+    if(n>m) return kthElementOf2SortedArr(b,a,k);
     int low=max(0,k-m);
     int high=min(k,n);
     int left=k;
