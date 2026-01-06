@@ -100,6 +100,67 @@ void factorial_striverMethod(int n,int fac){
     factorial_striverMethod(n-1,fac*n);
 };
 
+
+//Count Good Numbers
+//A number that has even numbers at even indices and prime numbers at odd indices
+//We will be given n, and we need to tell, how many numbers of that length are good numbers
+//Brute Force
+//We make some helper functions
+bool isPrime(int n){
+    if(n<=1) return false;
+    for(int i=2;i*i<=n;i++){
+        if(n%i==0) return false;
+    }
+    return true;
+}
+bool isGood(int x){
+    string s=to_string(x);
+    int n=s.size();
+    for(int i=0;i<n;i++){
+        int y=s[i]-'0';
+        if(i%2==0 && y%2!=0) return false;
+        if(i%2!=0 && !isPrime(y)) return false;
+    } 
+    return true;
+}
+int countGood_brute(int n){
+    int start=pow(10,n-1);
+    int end=pow(10,n)-1;
+    int cnt=0;
+    for(int i=start;i<=end;i++){
+        if(isGood(i)) cnt++;
+    }
+    return cnt;
+}
+//The for loop in countGood runs for about z times where z is 10^n - 10^(n-10) which is about pow(10,n)
+//The loop in is good runs for n times
+//the isPrime runs the loop for max 5 times since this many times it has to check
+//Calculating total time will be pow(10,n)*n*5
+//No extra space is used to solve the question
+//Time Complexity will be n*10^n
+//Space Complexity will be O(1)
+
+//Optimal Method
+//This time we will form the good numbers from the start
+//In case the digit allows leading zeroes, change the initial cnt to 5
+int countGood(int n){
+
+    //If n==1 we can just return 5 (1,3,5,7,9)
+    if(n==1) return 5;
+
+    int cnt=4;
+    for(int i=1;i<n;i++){
+        if(i%2==0) cnt=cnt*5;
+        else cnt=cnt*4;
+    }
+    return cnt;
+}
+//The code runs for n times
+//No extra space is needed
+//Time Complexity will be O(n)
+//Space Complexity will be O(1)
+
+
 //Reverse an array 
 //My Method
 void revArray(int currArr[],int n){
