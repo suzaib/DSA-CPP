@@ -231,7 +231,7 @@ int maxInCol(vector<vector<int>> mat,int col){
 }
 //Time Complexity will be O(n)
 
-vector<int> peakElement_optimal(vector<vector<int>> mat){
+vector<int> peakElement(vector<vector<int>> mat){
     int n=mat.size();
     int m=mat[0].size();
     int low=0;
