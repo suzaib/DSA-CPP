@@ -101,7 +101,7 @@ void factorial_striverMethod(int n,int fac){
 };
 
 
-//Count Good Numbers : Part I
+//Good Numbers : Part I : Count Good Numbers
 //A number that has even numbers at even indices and prime numbers at odd indices
 //We will be given n, and we need to tell, how many numbers of that length are good numbers
 //Brute Force
