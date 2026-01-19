@@ -187,7 +187,7 @@ void goodNumbersHelper(int idx,int n,string &temp,vector<int> &ans){
         }
         else{
             temp+=(2+'0');
-            helper(idx+1,n,temp,ans);
+            goodNumbersHelper(idx+1,n,temp,ans);
             temp.pop_back();
             for(int i=3;i<=7;i=i+2){
                 temp+=(i+'0');
