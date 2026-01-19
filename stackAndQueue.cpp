@@ -282,6 +282,25 @@ class queueImpUsingStack_method2{
 };
 
 
+//Sort a stack
+//The brute foce is the most optimal one
+//Take out all elements, place them in a vector, sort them, and put them back
+void sortStack(stack<int> &st){
+    vector<int> arr;
+    while(!st.empty()){
+        arr.push_back(st.top());
+        st.pop();
+    }
+    sort(arr.begin(),arr.end());
+    int n=arr.size();
+    for(int i=0;i<n;i++) st.push(arr[i]);
+}
+//The while loop runs for n times
+//The sort function takes nlogn time
+//The for loop runs for n times
+//Space is used by the extra array which grows to a maximum of n size
+//Time Complexity will be O(2n+nlogn)
+//Space Complexity will be O(n)
 
 
 //Valid Parenthesis
