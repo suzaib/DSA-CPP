@@ -97,7 +97,7 @@ vector<int> printAllDivisors_better(int n){
 //Time complexity will be O(N)+time calculated to sqrt(n) (check for c++ stl on chrome)
 
 //sqrt(n) takes some time to calculate therfore we use the condition i*i)
-vector<int> printAllDivisors_optimal(int n){
+vector<int> printAllDivisors(int n){
     vector<int> ans;
     for(int i=1;i*i<=n;i++){
         if(n%i==0){
