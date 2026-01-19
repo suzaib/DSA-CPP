@@ -101,7 +101,7 @@ void factorial_striverMethod(int n,int fac){
 };
 
 
-//Count Good Numbers
+//Count Good Numbers : Part I
 //A number that has even numbers at even indices and prime numbers at odd indices
 //We will be given n, and we need to tell, how many numbers of that length are good numbers
 //Brute Force
@@ -159,6 +159,60 @@ int countGood(int n){
 //No extra space is needed
 //Time Complexity will be O(n)
 //Space Complexity will be O(1)
+
+
+//Good Numbers : Part II : Generate all the good numbers
+//Use the similar logic as in optimal code for counting good numbers
+//The brute force is the optimal code
+void goodNumbersHelper(int idx,int n,string &temp,vector<int> &ans){
+    if(idx==n){
+        int x=stoi(temp); //Use can use stoll(string to long long if you think the number can be large)
+        ans.push_back(x);
+        return;
+    }
+    if(idx==0){
+        for(int i=2;i<=8;i=i+2){
+            temp+=(i+'0');
+            goodNumbersHelper(idx+1,n,temp,ans);
+            temp.pop_back();
+        }
+    }
+    else{
+        if(idx%2==0){
+            for(int i=0;i<=8;i=i+2){
+                temp+=(i+'0');
+                goodNumbersHelper(idx+1,n,temp,ans);
+                temp.pop_back();
+            }
+        }
+        else{
+            temp+=(2+'0');
+            helper(idx+1,n,temp,ans);
+            temp.pop_back();
+            for(int i=3;i<=7;i=i+2){
+                temp+=(i+'0');
+                goodNumbersHelper(idx+1,n,temp,ans);
+                temp.pop_back();
+            }
+        }
+    }
+}
+
+vector<int> goodNumbers(int n){
+    string temp="";
+    vector<int> ans;
+    goodNumbersHelper(0,n,temp,ans);
+    return ans;
+}
+//The code runs the loop for n times
+//At each position we have say 4 choices except the first
+//The total time the code runs is about 5*(4^(n-1))
+//The space is taken by the recursion stack which is n levels deep
+//Space is also occupied by the temp which grows n size at most
+//Space used by ans is not taken into account since it is mandatory to return the ans
+//Time Complexity will be O(4^n)
+//Space Complexity will be O(2n)
+
 
 
 //Reverse an array 
