@@ -111,6 +111,28 @@ vector<int> printAllDivisors(int n){
 }
 //Time Complexity will be O(sqrt(N))
 
+//Print All Divisors : Part II
+//Print them in ascending order
+vector<int> printAllDivisorsII(int n){
+    vector<int> ans;
+    vector<int> temp;
+    for(int i=1;i*i<=n;i++){
+        if(n%i==0){
+            ans.push_back(i);
+            if(n/i!=i) temp.push_back(n/i);
+        }
+    }
+
+    int x=temp.size();
+    for(int i=x-1;i>=0;i--) ans.push_back(temp[i]);
+    return ans;
+}
+//We can reduce the space from 2*sqr(n) to just sqrt(n) if we directly print without storing them, in that case only one array is needed to store the other pair
+//Time Taken will be sqrt(n)
+//Space Taken will be O(2*sqrt(n))
+//Time Complexity will be O(sqrt(n))
+//Space Complexity will be O(2*sqrt(n))
+
 
 //Q.6) Checking whether a number is prime or not
 bool checkForPrime(int n){
