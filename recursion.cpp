@@ -215,10 +215,44 @@ vector<int> goodNumbers(int n){
 
 
 //Sort a stack using recursion
-//Brute Force
+void insertInSortedStack(int x,stack<int> &st){
+
+    //Base Case 
+    //When the stack is empty OR correct position is found
+    if(st.empty() || x>=st.top()){
+        st.push(x);
+        return;
+    }
+
+    //Otherwise we remove the top element and start recursion again
+    int temp=st.top();
+    st.pop();
+
+    insertInSortedStack(x,st);
+
+    st.push(temp);
+}
+void sortStack(stack<int> &st){
+    
+    //Base Case
+    if(st.empty()) return;
+
+    int x=st.top();
+    st.pop();
+
+    //Call again
+    sortStack(st);
+
+    //Insert x in an already sorted stack
+    insertInSorted(x,st);
+}
+//The code can run for a maximum of n2 times
+//Recursion stack will be of n depth at max
+//Time Complexity will be O(n2)
+//Space Complexity will be O(n)
 
 
-//
+
 
 //Reverse an array 
 //My Method
