@@ -244,7 +244,7 @@ void sortStack(stack<int> &st){
     sortStack(st);
 
     //Insert x in an already sorted stack
-    insertInSorted(x,st);
+    insertInSortedStack(x,st);
 }
 //The code can run for a maximum of n2 times
 //Recursion stack will be of n depth at max
