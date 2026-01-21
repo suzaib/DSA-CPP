@@ -287,7 +287,7 @@ int heightOfBT(Node* root){
 //Check for Balanced Binary Tree
 //Brute Force
 bool balancedBT_brute(Node* node){
-    if(node) return true;
+    if(!node) return true;
     bool leftCheck=balancedBT_brute(node->left);
     bool rightCheck=balancedBT_brute(node->right);
     bool diff=abs(heightOfBT(node->right)-heightOfBT(node->left))<=1;
