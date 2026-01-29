@@ -17,3 +17,4 @@ dynamicProgramming<br/>
 binaryTrees<br/>
 binarySearchTrees<br/>
 trie<br/>
+segmentTrees<br/>
