@@ -710,20 +710,22 @@ Node* intersectionOfYLL(Node* head1,Node* head2){
     if(!head1 || !head2) return NULL;
     Node* temp1=head1;
     Node* temp2=head2;
+    if(temp1==temp2) return temp1;
     while(temp1!=temp2){
         temp1=temp1->next;
         temp2=temp2->next;
-        if(temp1==temp2) return temp1;
+        if(temp1==temp2 && temp1==nullptr) return nullptr;
         //The condition where there is no intersection point is also covered since both the temp1 and temp2 will point to null
         //Therefore both will be equal and null will be returned
 
         if(!temp1) temp1=head2;
         if(!temp2) temp2=head1;
+        if(temp1==temp2) return temp1;
     }
     return NULL;
 }
 //Time Complexity will be O(n+m)
-
+//Space Complexity will be O(1)
 
 //Detecting a loop in a linked list
 Node* detectLoopInLL_brute(Node* head){
