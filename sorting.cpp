@@ -239,6 +239,49 @@ void insertionSort_reccursive(vector<int> &arr){
 //Space Complexity will be O(n)
 
 
+//Non comparison based sorting algorithms
+
+/*
+
+Counting Sort
+This is a non comparison based sorting algorithm
+In this, we will be also given a range in which the inputs will lie, for eg range k
+This is the easiest sorting method
+Consider the example : [2,1,2,3,1,2,4], with the range given to be 0-5
+Now all you need to do is to take an hash array of 6 size and mark the numbers as they appear
+For eg the hash array would look like (assuming 1 based indexing) : [0,2,3,1,1,0]
+This means 0 appears 0 times, 1 appears 2 times and 2 appears 3 times and so on
+Now just start from the beginning and keep writing each number in order : 1,1,2,2,2,3,4
+There you go, you have got you sorted array
+
+Discussing Complexities
+We will traverse the array of n size once to fill in the hash table therefore n
+We will traverse the hash array of size k(range) to get the sorted array
+Space will be needed to make the hash array which is of k size(range)
+Time Complexity will be O(n+k)
+Space Complexity will be O(k)
+
+The counting sort is very good when you know the range and the numbers are not like [2,20000,3,4], in this case, counting sort is not ideal
+
+*/
+
+void countingSort(vector<int> &arr, int k){
+    int n=arr.size();
+    vector<int> hash(k+1,0);
+    for(int i=0;i<n;i++) hash[arr[i]]++;
+    int idx=0;
+    for(int i=0;i<=k;i++){
+        while(hash[i]>0){
+            arr[idx]=i;
+            idx++;
+            hash[i]--;
+        }
+    }
+}
+//Time Complexity will be O(n+k)
+//Space Complexity will be O(k)
+
+
 int main(){
     return 0;
 }
