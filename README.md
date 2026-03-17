@@ -11,6 +11,7 @@ binarySearch_2d<br/>
 bitManipulation<br/>
 singlyLinkedList<br/>
 doublyLinkedList<br/>
+analysisOfAlgorithms<br/>
 stackAndQueue<br/>
 graphs<br/>
 dynamicProgramming<br/>
