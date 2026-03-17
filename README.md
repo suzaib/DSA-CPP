@@ -1,21 +1,21 @@
 This repo contains some basic dsa questions which I did in the beginning<br/>
 Here is the order in which they were should be done
 <hr/>
-mathProblems<br/>
+math-problems<br/>
 recursion<br/>
 hashing<br/>
 sorting<br/>
 arrays<br/>
-binarySearch_1d<br/>
-binarySearch_2d<br/>
-bitManipulation<br/>
-singlyLinkedList<br/>
-doublyLinkedList<br/>
-analysisOfAlgorithms<br/>
-stackAndQueue<br/>
+binary-search-1d<br/>
+binary-search-2d<br/>
+bit-manipulation<br/>
+singly-linked-list<br/>
+doubly-linked-list<br/>
+analysis-of-algorithms<br/>
+stack-and-queue<br/>
 graphs<br/>
-dynamicProgramming<br/>
-binaryTrees<br/>
-binarySearchTrees<br/>
+dynamic-programming<br/>
+binary-trees<br/>
+binary-search-trees<br/>
 trie<br/>
-segmentTrees<br/>
+segment-trees<br/>
