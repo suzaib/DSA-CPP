@@ -1253,9 +1253,50 @@ void arrInAlternateSignUnequalArr_optimal(vector<int> &arr){
 // Q.25) Next Permutation
 // Suppose you are given the permutation 3 1 2 , the next permutation will be 3 2 1
 // In case the given permutation is the last for eg 3 2 1 , then the next permutation will be the first , that is 1 2 3
-//The next_permutation function provided in STL can be used as well
+
+//Brute Force
+//Generate all the permutations and then find the one given as argument, then return the next permutation
+void helper(int idx,int n,vector<int> &temp,vector<bool> &vis,vector<vector<int>> &ans,vector<int> &nums){
+    if(idx==n){
+        ans.push_back(temp);
+        return;
+    }
+    for(int i=0;i<n;i++){
+        if(vis[i]) continue;
+        if(i>0 && nums[i]==nums[i-1] && !vis[i-1]) continue;
+        temp.push_back(nums[i]);
+        vis[i]=true;
+        helper(idx+1,n,temp,vis,ans,nums);
+        temp.pop_back();
+        vis[i]=false;
+    }
+}
+vector<vector<int>> allPermutations(vector<int> nums){
+    int n=nums.size();
+    sort(nums.begin(),nums.end());
+    vector<vector<int>> ans;
+    vector<int> temp;
+    vector<bool> vis(n,false);
+    helper(0,n,temp,vis,ans,nums);
+    return ans;
+}
+void nextPermutation(vector<int>& nums) {
+    int n=nums.size();
+    vector<vector<int>> allPerm=allPermutations(nums);
+    int m=allPerm.size();
+    for(int i=0;i<m;i++){
+        if(allPerm[i]==nums){
+            nums=allPerm[(i+1)%m];
+            return;
+        }
+    }
+}
+//Time Complexity will be around O(n!)
+//Space Complexity will be around O(n!)
+
+//Optimal Solution
 //Watch Video for optimal solution
-vector<int> nextPermutation_optimal(vector<int> arr){
+vector<int> nextPermutation(vector<int> arr){
     int n = arr.size();
     int index = -1;
     for (int i = n - 2; i >= 0; i--){
@@ -1277,8 +1318,16 @@ vector<int> nextPermutation_optimal(vector<int> arr){
     reverse(arr.begin(),arr.end());
     return arr;
 }
-// Time Complexity is O(N) + O(N) + O(N) ==> O(3N)
-// Space Complexity is O(N) and that is to return the answer , we are not using any extra space to solve the question
+//The code runs for about O(n+n+n)
+//Space is only used to return the answer, not to solve it
+//Time Complexity will be O(3n)
+//Space Complexity will be O(1)
+
+//The C++ STL function : next_permutation can also be used. It is void type function
+//A use case is as : next_permutation(nums.begin(),nums.end())
+//Returns true if the permutation was present and false if it was the last permutation
+//It resets the array to the next permutation and is absolutely optimal in terms of time and space
+
 
 // Q.26) Find Leaders in an array
 // Leaders are elements on whose right every element is smaller for eg in [10,22,12,3,0,6] 22 is a leader since every number right to 22 is smaller, and obviously the last element is always the leader
@@ -1300,11 +1349,15 @@ vector<int> leaders_brute(vector<int> arr){
     }
     return temp;
 }
-// Time Complexity is almost O(N*N)
-// Space Complexity is O(N) at worst case(worst case happens when everyone is a leader) and that is only used to store the answer which is required since we have to return the array of leaders
+//The code runs for about O(n2)
+//Space is used only to return the answer
+//Time Complexity will be O(n2)
+//Space Complexity will be O(n)
 
-// We go through the back keeping the track of maximum , the moment any element is bigger than the maximum , we know it is bigger than all the elements in the right, that is when we are sure , that it is a leader
-vector<int> leaders_optimal(vector<int> arr){
+//Optimal Method
+//We go through the back keeping the track of maximum , the moment any element is bigger than the maximum , we know it is bigger than all the elements in the right,
+//That is when we are sure , that it is a leader
+vector<int> leaders(vector<int> arr){
     int n = arr.size();
     int maxEl = INT_MIN;
     vector<int> temp;
@@ -1317,7 +1370,8 @@ vector<int> leaders_optimal(vector<int> arr){
 
     return temp;
 }
-// Space Complexity is O(N) at worst case
+//Space is used to return the answer
+// Space Complexity will be O(1)
 // If the question asks to return the answers in the pattern in which they appeared in the original array , just reverse the temp array and it will work
 
 
