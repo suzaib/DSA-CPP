@@ -113,7 +113,25 @@ De Morgan's Laws
 ~(a&b)=(~a)|(~b)
 ~(a|b)=(~a)&(~b)
 
+Addition Laws
+a+b=(a^b)+2*(a&b)
+a+b=(a|b)+(a&b)
+
 */
+
+
+//Check if a number is odd or even*/
+bool isOdd(int x){
+    return (x&1);
+}
+
+
+//Given a number x and it is said that it is either a or b
+//If x=a then change it to b otherwise change it to a
+int swapUnknown(int x,int a,int b){
+    return (x^a^b);
+}
+
 
 //Swap Two Numbers without third variable
 void swap(int a,int b){
@@ -214,6 +232,8 @@ int countSetBits_brute(int n){
 //For eg in binary search instead of writing (low+high)/2, write (low+high)>>1 as bitwise operations are much faster than anything else
 
 //We can also use an inbuilt stl function
+//The function is __builtin_popcount(x) and gives the number of set bits in just O(1) time
+//If x is a long long, use  __builtin_popcountll(x)
 int countSetBits_usingSTL(int n){
     int ans=__builtin_popcount(n);
     return ans;
