@@ -193,7 +193,9 @@ int setRightMostUnsetBit(int n){
 
 
 //A number which is power of two has only one set bit in binary form, and that is also the rightmost bit so after we clear the rightmost bit, the number we get should be 0
+//The below approach fails when the number is 0
 bool isPowerOf2(int n){
+    if(n==0) return false;
     return !(n&(n-1));
 }
 
@@ -322,7 +324,7 @@ int numAppearingOnceAmongTriplets_better2(vector<int> arr){
 //and will only be big when there are too many digits in binary(20 bits or more maybe) hence this solution is better
 
 //Optimal solution requires the concept of buckets, need to watch video
-int numAppearingOnceAmongTriplets_optimal(vector<int> arr){
+int numAppearingOnceAmongTriplets(vector<int> arr){
     int n=arr.size();
     int ones=0;
     int twos=0;
@@ -353,7 +355,7 @@ vector<int> numsAppearingOnceAmongDuplets_brute(vector<int> arr){
 //Space Complexity will be O(N)
 
 //Watch video for explanation
-vector<int> numsAppearingOnceAmongDuplets_optimal(vector<int> arr){
+vector<int> numsAppearingOnceAmongDuplets(vector<int> arr){
     int n=arr.size();
     int xr=0;
     for(int i=0;i<n;i++){
@@ -413,7 +415,7 @@ int xorOfNumsInARange_brute(int l,int r){
 
 
 //Find xor till r and xor it with xor till l-1
-int xorOfNumsInARange_optimal(int l,int r){
+int xorOfNumsInARange(int l,int r){
     int ans=0;
     ans=xorTillN(r)^xorTillN(l-1);
     return ans;
@@ -437,7 +439,7 @@ int divideWithoutDivOrMultiplyOperators_brute(int dividend,int divisor){
 
 //Watch video for better explanation
 //If one of the divisor or dividend is negative then we first calculate the ans with positive terms, then add negative sign at the end
-int dividedWithoutDivOrMultiPlyOperators_optimal(int dividend,int divisor){
+int dividedWithoutDivOrMultiPlyOperators(int dividend,int divisor){
     if (dividend==divisor) return 1;
     bool sign=true;
     if((dividend>=0 && divisor<0) || (dividend<0 && divisor>0)) sign=false;
