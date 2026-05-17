@@ -1972,14 +1972,14 @@ findParent(u){
 We will form a class so that our code can be used for multiple times
 */
 
+//The first Class Disjoint Set is made for union By rank usage
+//The union by rank is mainly for theoretical purpose, and is often not used practically by many competitive programmers as they prefer union by size
 class DisjointSet{
     public:
         vector<int> rank;
         vector<int> parent; 
-        vector<int> count;
         DisjointSet(int n){
             rank.resize(n+1,0);//We are using n+1 size so that the data structure works for both one based and zero based indexing graphs
-            count.resize(n+1,1);
             parent.resize(n+1);
             iota(parent.begin(),parent.end(),0);
         }
@@ -2004,7 +2004,30 @@ class DisjointSet{
                 rank[pu]++;
             }
         }
-        //Time Complexity will be O(4*a)
+        //Time Complexity will be O(a(n)) 
+};
+
+
+//We now create the template for union by size usage
+//Union by size if far more practical and also more intuitive
+//It is mostly preferred over union by rank by many programmers
+//Here is the template
+class DisjointSet{
+    public:
+        vector<int> parent; 
+        vector<int> wt;
+        DisjointSet(int n){
+            
+            //We are using n+1 size so that the data structure works for both one based and zero based indexing graphs
+            wt.resize(n+1,1);
+            parent.resize(n+1);
+            iota(parent.begin(),parent.end(),0);
+        }
+
+        int findUltimatePar(int node){
+            if(node==parent[node]) return node;
+            return parent[node]=findUltimatePar(parent[node]);//The path compression technique
+        }
 
         void unionBySize(int u,int v){
             int pu=findUltimatePar(u);
@@ -2013,19 +2036,18 @@ class DisjointSet{
             //If they have same ultimate parent, no need to do anything, simply return
             if(pu==pv) return;
 
-            //Now we attach the component having a smaller size(count) to the one having larger size(count)
-            if(count[pu]<count[pv]){
+            //Now we attach the component having a smaller size(wt) to the one having larger size(wt)
+            if(wt[pu]<wt[pv]){
                 parent[pu]=pv;
-                count[pv]+=count[pu];
+                wt[pv]+=wt[pu];
             }
             else{
                 parent[pv]=pu;
-                count[pu]+=count[pv];
+                wt[pu]+=wt[pv];
             }
         }
-        //Time Complexity will be O(4*a)
+        //Time Complexity will be O(a(n))
 };
-
 
 //Kruskal's Algorithm
 //This algorithm is used to find the minimum spanning tree of a graph
