@@ -1,5 +1,5 @@
 This repo contains some basic dsa questions which I did in the beginning<br/>
-Here is the order in which they were should be done
+Here is the order in which they should be done
 <hr/>
 math-problems<br/>
 recursion<br/>
