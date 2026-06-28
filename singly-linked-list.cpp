@@ -1104,7 +1104,7 @@ Node* mergeKSortedLL_better(vector<Node*> NodeList){
 
 //Optimal Approach 
 //Using concept of min heap applied using priority queue
-Node* mergeKSortedLL(vector<Node*> NodeList){
+Node* mergeKSortedLL1(vector<Node*> NodeList){
     priority_queue<pair<int,Node*>,vector<pair<int,Node*>>,greater<pair<int,Node*>>> pq;
     //Priority queue takes three arguments : 1)type(required) 2)container(optional, default : vector) 3)comparator(default : less)
     int n=NodeList.size();
@@ -1122,6 +1122,40 @@ Node* mergeKSortedLL(vector<Node*> NodeList){
     Node* newHead=dummyHead->next;
     delete dummyHead;
     return newHead;
+}
+//Time Complexity will be O(k*logk + n*k*logk)
+//Space Complexity will be O(k)
+
+//We can do even better
+//We don't need to store both node and value in the priority queue, instead we could only store the node
+//Here is the best solution possible
+class Compare{
+    public:
+    bool operator()(const ListNode* a, const ListNode* b){
+        return a->val>b->val;
+    }
+};
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        int n=lists.size();
+        if(n==0) return nullptr;
+        priority_queue<ListNode*,vector<ListNode*>,Compare> pq;
+        for(int i=0;i<n;i++){
+            if(lists[i]) pq.push(lists[i]);
+        }
+
+        ListNode* dummy=new ListNode(-1);
+        ListNode* curr=dummy;
+        while(!pq.empty()){
+            ListNode* temp=pq.top();
+            pq.pop();
+            if(temp->next) pq.push(temp->next);
+            curr->next=temp;
+            curr=temp;
+        }
+        return dummy->next;
+    }
 }
 //Time Complexity will be O(k*logk + n*k*logk)
 //Space Complexity will be O(k)
